@@ -2,9 +2,470 @@ table d_medidas
 	lineageTag: 0aaf9625-c95a-4584-abd8-1a6d9749e7d8
 
 	measure TMA = DIVIDE(SUM(f_base_score[tempo_de_atendimento]), SUM(f_base_score[chamadas_atendidas_total]))
+		displayFolder: Indicadores
 		lineageTag: a5863eac-93dd-401d-8ceb-37b993224af0
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Transferência = DIVIDE(SUM(f_base_score[transferidas_pesquisa]), SUM(f_base_score[chamadas_atendidas_total]))
+		displayFolder: Indicadores
+		lineageTag: 4f2bd51b-cd3d-47fb-aa24-1e9b09e9406e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Aderência = DIVIDE(SUM(f_base_score[tempo_aderente]), SUM(f_base_score[tempo_escalado]))
+		displayFolder: Indicadores
+		lineageTag: 2fb33019-8ebd-4974-b1d2-878accd59bec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ABS = DIVIDE(SUM(f_base_score[falta]), SUM(f_base_score[escalado]))
+		displayFolder: Indicadores
+		lineageTag: d62c6125-ac56-4023-861b-0194de71eabd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CSAT = DIVIDE(SUMX(f_base_score, f_base_score[nota_csat] * f_base_score[qtd_pesquisas]), SUM(f_base_score[qtd_pesquisas]))
+		displayFolder: Indicadores
+		lineageTag: 5c229bc5-7ce3-44aa-b239-6f914e047186
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure NPS = DIVIDE(100 * (SUM(f_base_score[qtd_promotores]) - SUM(f_base_score[qtd_detratores])), SUM(f_base_score[qtd_pesquisas]))
+		displayFolder: Indicadores
+		lineageTag: 149eb060-ae3f-494b-b39e-d1e452b473ae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Monitoria = DIVIDE(SUMX(f_base_score, f_base_score[nota_monitoria] * f_base_score[qtd_monitorias]), SUM(f_base_score[qtd_monitorias]))
+		displayFolder: Indicadores
+		lineageTag: 9dc1f6e9-d6a5-464a-ae05-4014d6e98231
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Produtividade = DIVIDE(SUM(f_base_score[chamadas_atendidas_total]), SUM(f_base_score[flag_atendeu_dia]))
+		displayFolder: Indicadores
+		lineageTag: db67bac0-6b0c-4f2e-ba28-fe0f9bf614ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Score Ponderado (Operador)' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			RETURN
+				IF(
+					NOT ISBLANK(_PlataformaAtual),
+					CALCULATE(
+						SUMX(
+							FILTER(
+								d_cesta_indicadores_plataforma,
+								d_cesta_indicadores_plataforma[plataforma] = _PlataformaAtual
+							),
+							VAR _Indicador = d_cesta_indicadores_plataforma[indicador]
+							VAR _Direcao = d_cesta_indicadores_plataforma[direcao_meta]
+							VAR _Peso = d_cesta_indicadores_plataforma[peso]
+							VAR _Realizado =
+								SWITCH(
+									_Indicador,
+									"tma", [TMA],
+									"transferencia", [Transferência],
+									"aderencia", [Aderência],
+									"abs", [ABS],
+									"csat", [CSAT],
+									"nps", [NPS],
+									"monitoria", [Monitoria],
+									"produtividade", [Produtividade]
+								)
+							VAR _Meta =
+								SWITCH(
+									_Indicador,
+									"tma", AVERAGE(f_base_score[meta_tma]),
+									"transferencia", AVERAGE(f_base_score[meta_transferencia_pesquisa]),
+									"aderencia", AVERAGE(f_base_score[meta_aderencia]),
+									"abs", AVERAGE(f_base_score[meta_abs]),
+									"csat", AVERAGE(f_base_score[meta_csat]),
+									"nps", AVERAGE(f_base_score[meta_nps]),
+									"monitoria", AVERAGE(f_base_score[meta_monitoria]),
+									"produtividade", AVERAGE(f_base_score[meta_produtividade])
+								)
+							VAR _Atingimento =
+								IF(
+									ISBLANK(_Realizado),
+									BLANK(),
+									IF(
+										_Direcao = "menor_melhor",
+										IF(_Realizado = 0, 1, DIVIDE(_Meta, _Realizado)),
+										DIVIDE(_Realizado, _Meta)
+									)
+								)
+							RETURN
+								_Peso * _Atingimento
+						),
+						f_base_score[operacao_origem_historico] = _PlataformaAtual
+					)
+				)
+		formatString: 0%
+		displayFolder: Score e Ranking
+		lineageTag: dbbc44f0-6103-4a98-8324-e8fafbfe66f8
+
+	measure 'Score Ponderado (Plataforma)' =
+			VAR _PlataformaHistorica = SELECTEDVALUE(f_base_score[operacao_origem_historico])
+			RETURN
+				IF(
+					NOT ISBLANK(_PlataformaHistorica),
+					SUMX(
+						FILTER(
+							d_cesta_indicadores_plataforma,
+							d_cesta_indicadores_plataforma[plataforma] = _PlataformaHistorica
+						),
+						VAR _Indicador = d_cesta_indicadores_plataforma[indicador]
+						VAR _Direcao = d_cesta_indicadores_plataforma[direcao_meta]
+						VAR _Peso = d_cesta_indicadores_plataforma[peso]
+						VAR _Realizado =
+							SWITCH(
+								_Indicador,
+								"tma", [TMA],
+								"transferencia", [Transferência],
+								"aderencia", [Aderência],
+								"abs", [ABS],
+								"csat", [CSAT],
+								"nps", [NPS],
+								"monitoria", [Monitoria],
+								"produtividade", [Produtividade]
+							)
+						VAR _Meta =
+							SWITCH(
+								_Indicador,
+								"tma", AVERAGE(f_base_score[meta_tma]),
+								"transferencia", AVERAGE(f_base_score[meta_transferencia_pesquisa]),
+								"aderencia", AVERAGE(f_base_score[meta_aderencia]),
+								"abs", AVERAGE(f_base_score[meta_abs]),
+								"csat", AVERAGE(f_base_score[meta_csat]),
+								"nps", AVERAGE(f_base_score[meta_nps]),
+								"monitoria", AVERAGE(f_base_score[meta_monitoria]),
+								"produtividade", AVERAGE(f_base_score[meta_produtividade])
+							)
+						VAR _Atingimento =
+							IF(
+								ISBLANK(_Realizado),
+								BLANK(),
+								IF(
+									_Direcao = "menor_melhor",
+									IF(_Realizado = 0, 1, DIVIDE(_Meta, _Realizado)),
+									DIVIDE(_Realizado, _Meta)
+								)
+							)
+						RETURN
+							_Peso * _Atingimento
+					)
+				)
+		formatString: 0%
+		displayFolder: Score e Ranking
+		lineageTag: bbe48b67-9c0b-47eb-b956-581472e30a0e
+
+	measure 'Ranking Geral (Operador)' =
+			RANKX(
+				ALL(f_base_score[id_do_funcionario]),
+				[Score Ponderado (Operador)],
+				,
+				DESC,
+				DENSE
+			)
+		formatString: 0
+		displayFolder: Score e Ranking
+		lineageTag: 7aea7593-80c4-40a4-a9ec-2e7b4f2babb8
+
+	measure 'Ranking na Plataforma (Operador)' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			RETURN
+				RANKX(
+					FILTER(
+						ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+						f_base_score[operacao_origem_atual] = _PlataformaAtual
+					),
+					[Score Ponderado (Operador)],
+					,
+					DESC,
+					DENSE
+				)
+		formatString: 0
+		displayFolder: Score e Ranking
+		lineageTag: 8b894c42-3539-4b10-afe4-21ac8db1c723
+
+	measure 'Ranking por Plataforma' =
+			RANKX(
+				ALL(f_base_score[operacao_origem_historico]),
+				[Score Ponderado (Plataforma)],
+				,
+				DESC,
+				DENSE
+			)
+		formatString: 0
+		displayFolder: Score e Ranking
+		lineageTag: 493f1523-e532-4ef5-933e-6c3a22c10cab
+
+	measure 'Quartil TMA' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([TMA], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					ASC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 5181b643-c1cb-48bf-a0bc-0d03e5fd3746
+
+	measure 'Quartil Transferência' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([Transferência], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 26a02819-3342-46b5-ab38-18ed5bf86ac4
+
+	measure 'Quartil Aderência' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([Aderência], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 8942cdcb-3e71-4577-b416-7e073b89317a
+
+	measure 'Quartil ABS' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([ABS], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					ASC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 9a885f9a-e705-40b8-b6f5-9c1f790e2bc4
+
+	measure 'Quartil CSAT' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([CSAT], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 6e9ebb33-0eea-492b-af46-04b9701bf89f
+
+	measure 'Quartil NPS' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([NPS], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 9adb6a31-af6f-4a26-a093-83fc51499a1e
+
+	measure 'Quartil Monitoria' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([Monitoria], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: a1600b97-e9c5-4364-84ea-91bcb299c1b4
+
+	measure 'Quartil Produtividade' =
+			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
+			VAR _Pares =
+				FILTER(
+					ALL(f_base_score[id_do_funcionario], f_base_score[operacao_origem_atual]),
+					f_base_score[operacao_origem_atual] = _PlataformaAtual
+				)
+			VAR _TotalPares = COUNTROWS(_Pares)
+			VAR _Posicao =
+				RANKX(
+					_Pares,
+					CALCULATE([Produtividade], f_base_score[operacao_origem_historico] = _PlataformaAtual),
+					,
+					DESC,
+					DENSE
+				)
+			VAR _Percentil = DIVIDE(_Posicao, _TotalPares)
+			RETURN
+				IF(
+					ISBLANK(_PlataformaAtual) || ISBLANK(_Percentil),
+					BLANK(),
+					SWITCH(
+						TRUE(),
+						_Percentil <= 0.25, 1,
+						_Percentil <= 0.5, 2,
+						_Percentil <= 0.75, 3,
+						4
+					)
+				)
+		formatString: 0
+		displayFolder: Quartis
+		lineageTag: 2058ab2e-ce06-44bc-8d12-bdb9311c63c2
 
 	partition d_medidas = m
 		mode: import

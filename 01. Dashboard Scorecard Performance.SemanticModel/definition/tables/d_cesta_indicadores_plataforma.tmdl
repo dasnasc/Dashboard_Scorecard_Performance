@@ -3,6 +3,7 @@ table d_cesta_indicadores_plataforma
 
 	column cesta
 		dataType: string
+		displayFolder: Plataforma
 		lineageTag: 1d9ebcbb-a016-4ff4-856d-0152d1912512
 		summarizeBy: none
 		sourceColumn: cesta
@@ -11,6 +12,7 @@ table d_cesta_indicadores_plataforma
 
 	column canal
 		dataType: string
+		displayFolder: Plataforma
 		lineageTag: 255c6f0a-6859-4342-b09e-fdd21fb59d76
 		summarizeBy: none
 		sourceColumn: canal
@@ -19,6 +21,7 @@ table d_cesta_indicadores_plataforma
 
 	column plataforma
 		dataType: string
+		displayFolder: Plataforma
 		lineageTag: b23024a2-afdf-4b2b-96f3-551c571f752f
 		summarizeBy: none
 		sourceColumn: plataforma
@@ -27,6 +30,7 @@ table d_cesta_indicadores_plataforma
 
 	column indicador
 		dataType: string
+		displayFolder: Indicador
 		lineageTag: 1345a9cd-7c8a-4b26-802f-c0c2f84bb501
 		summarizeBy: none
 		sourceColumn: indicador
@@ -35,6 +39,7 @@ table d_cesta_indicadores_plataforma
 
 	column nome_indicador
 		dataType: string
+		displayFolder: Indicador
 		lineageTag: bf07e1c6-1fbb-4487-86a4-bb0d0b01e123
 		summarizeBy: none
 		sourceColumn: nome_indicador
@@ -43,6 +48,7 @@ table d_cesta_indicadores_plataforma
 
 	column direcao_meta
 		dataType: string
+		displayFolder: Indicador
 		lineageTag: f80f4348-e435-454b-9d46-0773f8704268
 		summarizeBy: none
 		sourceColumn: direcao_meta
@@ -51,6 +57,7 @@ table d_cesta_indicadores_plataforma
 
 	column peso
 		dataType: double
+		displayFolder: Indicador
 		lineageTag: 6e59550f-ce0f-4b4f-832f-de1a84bca444
 		summarizeBy: sum
 		sourceColumn: peso

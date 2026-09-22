@@ -1,0 +1,352 @@
+table fbase_score
+	lineageTag: 2ab489e5-20ce-4cb5-889a-5e44b1a49a0c
+
+	column data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c30e0218-19a2-40f4-8626-53ba599ed0a7
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_do_funcionario
+		dataType: int64
+		formatString: 0
+		lineageTag: 71800e6a-0152-409f-8219-062964eee429
+		summarizeBy: sum
+		sourceColumn: id_do_funcionario
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_do_funcionario
+		dataType: string
+		lineageTag: 9d333f0b-4eb5-474c-a70d-47b754e86d34
+		summarizeBy: none
+		sourceColumn: nome_do_funcionario
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_do_funcionario
+		dataType: string
+		lineageTag: 51ac6146-f2e7-4864-bb01-8da772d2c417
+		summarizeBy: none
+		sourceColumn: email_do_funcionario
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor1historico
+		dataType: string
+		lineageTag: e0dac7b7-d225-4d35-9997-287ccec0ab32
+		summarizeBy: none
+		sourceColumn: gestor1historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor2historico
+		dataType: string
+		lineageTag: 1d6b2b4d-6063-458e-8030-99469cc3bcf2
+		summarizeBy: none
+		sourceColumn: gestor2historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor3historico
+		dataType: string
+		lineageTag: 6970c6cb-3533-4b20-bec6-ca0a39d02edd
+		summarizeBy: none
+		sourceColumn: gestor3historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor1atual
+		dataType: string
+		lineageTag: 8691801c-dbd7-4448-ba7b-bf31acb1b6d0
+		summarizeBy: none
+		sourceColumn: gestor1atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor2atual
+		dataType: string
+		lineageTag: a30b5486-ecff-43e6-8539-1db4041a3c1e
+		summarizeBy: none
+		sourceColumn: gestor2atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column gestor3atual
+		dataType: string
+		lineageTag: b318818b-f818-44bf-b576-87c250648f28
+		summarizeBy: none
+		sourceColumn: gestor3atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_historico
+		dataType: string
+		lineageTag: 4e91c394-595f-4d6e-a9aa-7938212c0825
+		summarizeBy: none
+		sourceColumn: status_historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_atual
+		dataType: string
+		lineageTag: 93af4e95-a9b3-4a7d-bb05-fd54856fd8cb
+		summarizeBy: none
+		sourceColumn: status_atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column operacao_origem_historico
+		dataType: string
+		lineageTag: a9385781-dd1b-447f-8618-eb8982079208
+		summarizeBy: none
+		sourceColumn: operacao_origem_historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column operacao_origem_atual
+		dataType: string
+		lineageTag: 17b1ec76-4e6a-4311-ae76-c0806a7fba76
+		summarizeBy: none
+		sourceColumn: operacao_origem_atual
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal_operacao_origem_historico
+		dataType: string
+		lineageTag: 1bb22f3b-054e-49ce-b46e-c0d839cb291a
+		summarizeBy: none
+		sourceColumn: canal_operacao_origem_historico
+
+		annotation SummarizationSetBy = Automatic
+
+	column chamadas_atendidas_total
+		dataType: int64
+		formatString: 0
+		lineageTag: 84114591-5377-4f32-a0f1-7575c03970dd
+		summarizeBy: sum
+		sourceColumn: chamadas_atendidas_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column tempo_de_atendimento
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c9ebcf2-52cd-43e5-8318-54b6ea796493
+		summarizeBy: sum
+		sourceColumn: tempo_de_atendimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_tma
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b1c5227-915d-4a0e-8140-918404362035
+		summarizeBy: sum
+		sourceColumn: meta_tma
+
+		annotation SummarizationSetBy = Automatic
+
+	column transferidas_pesquisa
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f453c65-4a98-4083-a8d2-570bab61327b
+		summarizeBy: sum
+		sourceColumn: transferidas_pesquisa
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_transferencia_pesquisa
+		dataType: double
+		lineageTag: 83ca2582-cd14-47c7-a16b-db9b38f887ba
+		summarizeBy: sum
+		sourceColumn: meta_transferencia_pesquisa
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tempo_aderente
+		dataType: int64
+		formatString: 0
+		lineageTag: 56b20d7f-0be7-4ca7-81fa-3ace32069638
+		summarizeBy: sum
+		sourceColumn: tempo_aderente
+
+		annotation SummarizationSetBy = Automatic
+
+	column tempo_escalado
+		dataType: int64
+		formatString: 0
+		lineageTag: b448058f-0605-4573-830b-45b616ff5d34
+		summarizeBy: sum
+		sourceColumn: tempo_escalado
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_aderencia
+		dataType: double
+		lineageTag: c235d34b-54d5-4bde-9f3c-6fe31981d301
+		summarizeBy: sum
+		sourceColumn: meta_aderencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column falta
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a7ce489-09f3-4491-be42-beb279a81d88
+		summarizeBy: sum
+		sourceColumn: falta
+
+		annotation SummarizationSetBy = Automatic
+
+	column escalado
+		dataType: int64
+		formatString: 0
+		lineageTag: 8afb9fef-c5f5-45b5-9507-cbeef590d68a
+		summarizeBy: sum
+		sourceColumn: escalado
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_abs
+		dataType: double
+		lineageTag: db4c0d00-1920-4249-802c-e0009ad28560
+		summarizeBy: sum
+		sourceColumn: meta_abs
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtd_pesquisas
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f5215f0-8f53-47fd-b6c8-754d5a83613b
+		summarizeBy: sum
+		sourceColumn: qtd_pesquisas
+
+		annotation SummarizationSetBy = Automatic
+
+	column nota_csat
+		dataType: double
+		lineageTag: 1e327cf6-89ba-431f-a369-edfcfd46577b
+		summarizeBy: sum
+		sourceColumn: nota_csat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column meta_csat
+		dataType: double
+		lineageTag: 30a62aa0-bd46-4677-992d-d467130d2ac9
+		summarizeBy: sum
+		sourceColumn: meta_csat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtd_detratores
+		dataType: int64
+		formatString: 0
+		lineageTag: ddfeee66-a66e-4cc1-8dd7-69a9d2fc00cc
+		summarizeBy: sum
+		sourceColumn: qtd_detratores
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_neutros
+		dataType: int64
+		formatString: 0
+		lineageTag: a2cd98d9-0b08-436e-8368-740390cc6c99
+		summarizeBy: sum
+		sourceColumn: qtd_neutros
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_promotores
+		dataType: int64
+		formatString: 0
+		lineageTag: eb1503fd-ebb3-41ec-8931-21f599ecbb3f
+		summarizeBy: sum
+		sourceColumn: qtd_promotores
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_nps
+		dataType: int64
+		formatString: 0
+		lineageTag: 10fac317-ae29-495a-a427-699bbeda6034
+		summarizeBy: sum
+		sourceColumn: meta_nps
+
+		annotation SummarizationSetBy = Automatic
+
+	column nota_monitoria
+		dataType: double
+		lineageTag: c2288b85-9868-4d5a-a704-9bf5bb2029d1
+		summarizeBy: sum
+		sourceColumn: nota_monitoria
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtd_monitorias
+		dataType: int64
+		formatString: 0
+		lineageTag: 3721e965-da2d-4c7b-b8f2-1687f2f1bda3
+		summarizeBy: sum
+		sourceColumn: qtd_monitorias
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_monitoria
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a3182ba-68ca-46bd-ae6a-a0ad41053dc7
+		summarizeBy: sum
+		sourceColumn: meta_monitoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_atendeu_dia
+		dataType: int64
+		formatString: 0
+		lineageTag: 0780e14e-592b-4bf9-8dd6-4ca8b1a66052
+		summarizeBy: sum
+		sourceColumn: flag_atendeu_dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_produtividade
+		dataType: int64
+		formatString: 0
+		lineageTag: be420a6e-4b3d-4183-84ea-66c654e08eda
+		summarizeBy: sum
+		sourceColumn: meta_produtividade
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fbase_score = m
+		mode: import
+		source =
+				let
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\01. Dashboard Score Performance\Base de Dados\base_score_performance_2025.csv"), [Delimiter = ";", Columns = 38, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
+				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"data", type date}, {"id_do_funcionario", Int64.Type}, {"nome_do_funcionario", type text}, {"email_do_funcionario", type text}, {"gestor1historico", type text}, {"gestor2historico", type text}, {"gestor3historico", type text}, {"gestor1atual", type text}, {"gestor2atual", type text}, {"gestor3atual", type text}, {"status_historico", type text}, {"status_atual", type text}, {"operacao_origem_historico", type text}, {"operacao_origem_atual", type text}, {"canal_operacao_origem_historico", type text}, {"chamadas_atendidas_total", Int64.Type}, {"tempo_de_atendimento", Int64.Type}, {"meta_tma", Int64.Type}, {"transferidas_pesquisa", Int64.Type}, {"meta_transferencia_pesquisa", type number}, {"tempo_aderente", Int64.Type}, {"tempo_escalado", Int64.Type}, {"meta_aderencia", type number}, {"falta", Int64.Type}, {"escalado", Int64.Type}, {"meta_abs", type number}, {"qtd_pesquisas", Int64.Type}, {"nota_csat", type number}, {"meta_csat", type number}, {"qtd_detratores", Int64.Type}, {"qtd_neutros", Int64.Type}, {"qtd_promotores", Int64.Type}, {"meta_nps", Int64.Type}, {"nota_monitoria", type number}, {"qtd_monitorias", Int64.Type}, {"meta_monitoria", Int64.Type}, {"flag_atendeu_dia", Int64.Type}, {"meta_produtividade", Int64.Type}})
+				in
+				  #"Tipo de coluna alterado"
+
+	annotation PBI_ResultType = Table
+

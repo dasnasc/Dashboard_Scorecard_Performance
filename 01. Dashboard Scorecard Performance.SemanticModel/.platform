@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "01. Dashboard Scorecard Performance"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "90660d69-0d7a-4675-a5aa-4542224f00e2"
+  }
+}

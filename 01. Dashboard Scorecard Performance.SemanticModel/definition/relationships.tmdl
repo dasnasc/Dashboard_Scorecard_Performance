@@ -1,0 +1,4 @@
+relationship d1536c37-fc93-15ef-835f-78af9a448cb8
+	fromColumn: fbase_score.data
+	toColumn: dcalendario.data
+

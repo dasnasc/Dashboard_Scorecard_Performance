@@ -1,0 +1,154 @@
+table dcalendario
+	lineageTag: af9f0ddd-7bdc-482c-b268-1b83a2dab5e3
+	dataCategory: Time
+
+	column data
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 545b149a-d010-49d4-a0c3-9e377de808cb
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 39072fe9-e498-44fd-ad98-9b20ae758372
+		summarizeBy: sum
+		sourceColumn: ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		formatString: 0
+		lineageTag: c7adcff1-9df7-4f79-a6d7-20a0a0991612
+		summarizeBy: sum
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_mes
+		dataType: string
+		lineageTag: fd822c74-1920-4ecc-8a17-1a932e71717e
+		summarizeBy: none
+		sourceColumn: nome_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_abreviado
+		dataType: string
+		lineageTag: 66b60126-7050-4cb6-9b87-372c8b900c54
+		summarizeBy: none
+		sourceColumn: mes_abreviado
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_ano
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3c6e2f8d-c2d3-401e-b429-e2e4666da137
+		summarizeBy: none
+		sourceColumn: mes_ano
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column trimestre
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a306de1-7860-46dd-b7ba-bd55eb018c2b
+		summarizeBy: sum
+		sourceColumn: trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_trimestre
+		dataType: string
+		lineageTag: ca4554f4-b518-4c8e-a51e-36c8c43b2f9d
+		summarizeBy: none
+		sourceColumn: nome_trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column semestre
+		dataType: int64
+		formatString: 0
+		lineageTag: 5decbf5d-a972-4d31-a592-6f7bcbbd4c27
+		summarizeBy: sum
+		sourceColumn: semestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column semana_do_ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 2efa9cfa-7a75-4a91-b878-fd49168e1251
+		summarizeBy: sum
+		sourceColumn: semana_do_ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_do_mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 1cc5edac-13a3-4523-95f6-c8cfd40cdaf9
+		summarizeBy: sum
+		sourceColumn: dia_do_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_do_ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ed1d427-198c-4184-b933-6684178529e4
+		summarizeBy: sum
+		sourceColumn: dia_do_ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_da_semana
+		dataType: int64
+		formatString: 0
+		lineageTag: 191af458-5b72-4121-90c9-a0d71f01f63d
+		summarizeBy: sum
+		sourceColumn: dia_da_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_dia_semana
+		dataType: string
+		lineageTag: 0226fa87-f7e1-4c02-b6cc-f8c208b06f09
+		summarizeBy: none
+		sourceColumn: nome_dia_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_fim_de_semana
+		dataType: int64
+		formatString: 0
+		lineageTag: 95d38559-4aa1-46b2-b2dd-8e05a00ca5c7
+		summarizeBy: sum
+		sourceColumn: flag_fim_de_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dcalendario = m
+		mode: import
+		source =
+				let
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\01. Dashboard Score Performance\Base de Dados\calendario_2025.csv"), [Delimiter = ";", Columns = 15, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
+				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"data", type date}, {"ano", Int64.Type}, {"mes", Int64.Type}, {"nome_mes", type text}, {"mes_abreviado", type text}, {"mes_ano", type date}, {"trimestre", Int64.Type}, {"nome_trimestre", type text}, {"semestre", Int64.Type}, {"semana_do_ano", Int64.Type}, {"dia_do_mes", Int64.Type}, {"dia_do_ano", Int64.Type}, {"dia_da_semana", Int64.Type}, {"nome_dia_semana", type text}, {"flag_fim_de_semana", Int64.Type}})
+				in
+				  #"Tipo de coluna alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

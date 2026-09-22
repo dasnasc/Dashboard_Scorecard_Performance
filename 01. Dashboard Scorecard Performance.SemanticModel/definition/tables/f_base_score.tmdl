@@ -1,4 +1,4 @@
-table fbase_score
+table f_base_score
 	lineageTag: 2ab489e5-20ce-4cb5-889a-5e44b1a49a0c
 
 	column data
@@ -338,7 +338,7 @@ table fbase_score
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fbase_score = m
+	partition f_base_score = m
 		mode: import
 		source =
 				let

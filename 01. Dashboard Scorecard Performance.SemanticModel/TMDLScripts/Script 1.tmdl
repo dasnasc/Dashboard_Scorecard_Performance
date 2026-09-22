@@ -1,0 +1,9 @@
+createOrReplace
+
+	ref table d_medidas
+
+		measure TMA = DIVIDE(SUM(f_base_score[tempo_de_atendimento]), SUM(f_base_score[chamadas_atendidas_total]))
+			lineageTag: a5863eac-93dd-401d-8ceb-37b993224af0
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+

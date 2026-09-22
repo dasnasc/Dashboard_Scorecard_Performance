@@ -1,4 +1,4 @@
-table dcalendario
+table d_calendario
 	lineageTag: af9f0ddd-7bdc-482c-b268-1b83a2dab5e3
 	dataCategory: Time
 
@@ -138,7 +138,7 @@ table dcalendario
 
 		annotation SummarizationSetBy = Automatic
 
-	partition dcalendario = m
+	partition d_calendario = m
 		mode: import
 		source =
 				let

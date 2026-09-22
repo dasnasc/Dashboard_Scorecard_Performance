@@ -1,0 +1,75 @@
+table d_cesta_indicadores_plataforma
+	lineageTag: 193229fd-da14-4981-abef-e5be7ab53816
+
+	column cesta
+		dataType: string
+		lineageTag: 1d9ebcbb-a016-4ff4-856d-0152d1912512
+		summarizeBy: none
+		sourceColumn: cesta
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal
+		dataType: string
+		lineageTag: 255c6f0a-6859-4342-b09e-fdd21fb59d76
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column plataforma
+		dataType: string
+		lineageTag: b23024a2-afdf-4b2b-96f3-551c571f752f
+		summarizeBy: none
+		sourceColumn: plataforma
+
+		annotation SummarizationSetBy = Automatic
+
+	column indicador
+		dataType: string
+		lineageTag: 1345a9cd-7c8a-4b26-802f-c0c2f84bb501
+		summarizeBy: none
+		sourceColumn: indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_indicador
+		dataType: string
+		lineageTag: bf07e1c6-1fbb-4487-86a4-bb0d0b01e123
+		summarizeBy: none
+		sourceColumn: nome_indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column direcao_meta
+		dataType: string
+		lineageTag: f80f4348-e435-454b-9d46-0773f8704268
+		summarizeBy: none
+		sourceColumn: direcao_meta
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso
+		dataType: double
+		lineageTag: 6e59550f-ce0f-4b4f-832f-de1a84bca444
+		summarizeBy: sum
+		sourceColumn: peso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition d_cesta_indicadores_plataforma = m
+		mode: import
+		source =
+				let
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\01. Dashboard Score Performance\Base de Dados\cesta_indicadores_plataforma.csv"), [Delimiter = ";", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
+				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"cesta", type text}, {"canal", type text}, {"plataforma", type text}, {"indicador", type text}, {"nome_indicador", type text}, {"direcao_meta", type text}, {"peso", type number}})
+				in
+				  #"Tipo de coluna alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

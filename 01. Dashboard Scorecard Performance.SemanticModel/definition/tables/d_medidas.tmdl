@@ -1,0 +1,21 @@
+table d_medidas
+	lineageTag: 0aaf9625-c95a-4584-abd8-1a6d9749e7d8
+
+	measure TMA = DIVIDE(SUM(f_base_score[tempo_de_atendimento]), SUM(f_base_score[chamadas_atendidas_total]))
+		lineageTag: a5863eac-93dd-401d-8ceb-37b993224af0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition d_medidas = m
+		mode: import
+		source =
+				let
+				  Origem = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Colunas Removidas" = Table.RemoveColumns(Origem,{"Coluna 1"})
+				in
+				  #"Colunas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -13,9 +13,46 @@
             "x": 0,
             "y": 0
           },
-          "nodeIndex": "fbase_score",
+          "nodeIndex": "f_base_score",
           "size": {
             "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "d_calendario",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 26
+          },
+          "nodeIndex": "d_cesta_indicadores_plataforma",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 98
+          },
+          "nodeIndex": "d_medidas",
+          "nodeLineageTag": "0aaf9625-c95a-4584-abd8-1a6d9749e7d8",
+          "size": {
+            "height": 104,
             "width": 234
           },
           "zIndex": 0

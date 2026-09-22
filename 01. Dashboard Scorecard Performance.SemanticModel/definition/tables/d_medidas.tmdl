@@ -50,6 +50,7 @@ table d_medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Score Ponderado (Operador)' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			RETURN
 				IF(
@@ -108,6 +109,7 @@ table d_medidas
 		lineageTag: dbbc44f0-6103-4a98-8324-e8fafbfe66f8
 
 	measure 'Score Ponderado (Plataforma)' =
+			
 			VAR _PlataformaHistorica = SELECTEDVALUE(f_base_score[operacao_origem_historico])
 			RETURN
 				IF(
@@ -163,6 +165,7 @@ table d_medidas
 		lineageTag: bbe48b67-9c0b-47eb-b956-581472e30a0e
 
 	measure 'Ranking Geral (Operador)' =
+			
 			RANKX(
 				ALL(f_base_score[id_do_funcionario]),
 				[Score Ponderado (Operador)],
@@ -175,6 +178,7 @@ table d_medidas
 		lineageTag: 7aea7593-80c4-40a4-a9ec-2e7b4f2babb8
 
 	measure 'Ranking na Plataforma (Operador)' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			RETURN
 				RANKX(
@@ -192,6 +196,7 @@ table d_medidas
 		lineageTag: 8b894c42-3539-4b10-afe4-21ac8db1c723
 
 	measure 'Ranking por Plataforma' =
+			
 			RANKX(
 				ALL(f_base_score[operacao_origem_historico]),
 				[Score Ponderado (Plataforma)],
@@ -204,6 +209,7 @@ table d_medidas
 		lineageTag: 493f1523-e532-4ef5-933e-6c3a22c10cab
 
 	measure 'Quartil TMA' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -237,6 +243,7 @@ table d_medidas
 		lineageTag: 5181b643-c1cb-48bf-a0bc-0d03e5fd3746
 
 	measure 'Quartil Transferência' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -270,6 +277,7 @@ table d_medidas
 		lineageTag: 26a02819-3342-46b5-ab38-18ed5bf86ac4
 
 	measure 'Quartil Aderência' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -303,6 +311,7 @@ table d_medidas
 		lineageTag: 8942cdcb-3e71-4577-b416-7e073b89317a
 
 	measure 'Quartil ABS' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -336,6 +345,7 @@ table d_medidas
 		lineageTag: 9a885f9a-e705-40b8-b6f5-9c1f790e2bc4
 
 	measure 'Quartil CSAT' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -369,6 +379,7 @@ table d_medidas
 		lineageTag: 6e9ebb33-0eea-492b-af46-04b9701bf89f
 
 	measure 'Quartil NPS' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -402,6 +413,7 @@ table d_medidas
 		lineageTag: 9adb6a31-af6f-4a26-a093-83fc51499a1e
 
 	measure 'Quartil Monitoria' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(
@@ -435,6 +447,7 @@ table d_medidas
 		lineageTag: a1600b97-e9c5-4364-84ea-91bcb299c1b4
 
 	measure 'Quartil Produtividade' =
+			
 			VAR _PlataformaAtual = SELECTEDVALUE(f_base_score[operacao_origem_atual])
 			VAR _Pares =
 				FILTER(

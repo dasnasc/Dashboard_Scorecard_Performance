@@ -35,11 +35,12 @@
         {
           "location": {
             "x": 568,
-            "y": 26
+            "y": 0
           },
           "nodeIndex": "d_cesta_indicadores_plataforma",
+          "nodeLineageTag": "193229fd-da14-4981-abef-e5be7ab53816",
           "size": {
-            "height": 248,
+            "height": 317,
             "width": 234
           },
           "zIndex": 0
@@ -47,12 +48,12 @@
         {
           "location": {
             "x": 852,
-            "y": 98
+            "y": 0
           },
           "nodeIndex": "d_medidas",
           "nodeLineageTag": "0aaf9625-c95a-4584-abd8-1a6d9749e7d8",
           "size": {
-            "height": 104,
+            "height": 319,
             "width": 234
           },
           "zIndex": 0

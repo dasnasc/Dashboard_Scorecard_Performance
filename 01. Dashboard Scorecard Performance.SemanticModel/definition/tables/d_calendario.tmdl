@@ -156,7 +156,7 @@ table d_calendario
 		mode: import
 		source =
 				let
-				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\01. Dashboard Score Performance\Base de Dados\calendario_2025.csv"), [Delimiter = ";", Columns = 15, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\Base de Dados\01. Dashboard Score Performance\calendario_2025.csv"), [Delimiter = ";", Columns = 15, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
 				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
 				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"data", type date}, {"ano", Int64.Type}, {"mes", Int64.Type}, {"nome_mes", type text}, {"mes_abreviado", type text}, {"mes_ano", type date}, {"trimestre", Int64.Type}, {"nome_trimestre", type text}, {"semestre", Int64.Type}, {"semana_do_ano", Int64.Type}, {"dia_do_mes", Int64.Type}, {"dia_do_ano", Int64.Type}, {"dia_da_semana", Int64.Type}, {"nome_dia_semana", type text}, {"flag_fim_de_semana", Int64.Type}})
 				in

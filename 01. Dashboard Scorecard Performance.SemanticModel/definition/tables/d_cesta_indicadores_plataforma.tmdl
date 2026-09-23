@@ -70,7 +70,7 @@ table d_cesta_indicadores_plataforma
 		mode: import
 		source =
 				let
-				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\01. Dashboard Score Performance\Base de Dados\cesta_indicadores_plataforma.csv"), [Delimiter = ";", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\Base de Dados\01. Dashboard Score Performance\cesta_indicadores_plataforma.csv"), [Delimiter = ";", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
 				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
 				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"cesta", type text}, {"canal", type text}, {"plataforma", type text}, {"indicador", type text}, {"nome_indicador", type text}, {"direcao_meta", type text}, {"peso", type number}})
 				in

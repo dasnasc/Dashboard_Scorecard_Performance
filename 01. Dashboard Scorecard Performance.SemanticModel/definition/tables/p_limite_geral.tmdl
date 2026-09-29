@@ -1,0 +1,28 @@
+table p_limite_geral
+	lineageTag: e5323597-7017-4af8-85b4-a77323555b0c
+
+	measure 'Valor p_limite_geral' = SELECTEDVALUE('p_limite_geral'[p_limite_geral], 1)
+		lineageTag: 34d76332-9828-4495-9e26-32fe15798e94
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column p_limite_geral
+		lineageTag: 082a1005-dded-4d0b-80fe-e4e592938f2f
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition p_limite_geral = calculated
+		mode: import
+		source = GENERATESERIES(1, 1.51, 0.05)
+
+	annotation PBI_Id = 00c64d084a7b4283b6f68ccfc067bf10
+

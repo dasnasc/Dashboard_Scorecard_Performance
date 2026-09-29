@@ -67,6 +67,12 @@ table d_medidas
 	measure 'Score Ponderado (Plataforma)' =
 			
 			VAR _PlataformaHistorica = SELECTEDVALUE(f_base_score[operacao_origem_historico])
+			VAR _LimiteGeral = [Valor p_limite_geral]
+			VAR _LimiteEspecifico = [Valor p_limite_especifico]
+			VAR _IndicadoresEspecificos = VALUES(d_indicadores[indicador])
+			VAR _TotalIndicadores = COUNTROWS(ALL(d_indicadores))
+			VAR _QtdIndicadoresEspecificos = COUNTROWS(_IndicadoresEspecificos)
+			VAR _UsarLimiteEspecifico = _QtdIndicadoresEspecificos > 0 && _QtdIndicadoresEspecificos < _TotalIndicadores
 			VAR _Cesta =
 				ADDCOLUMNS(
 					FILTER(
@@ -96,6 +102,12 @@ table d_medidas
 							"nps", AVERAGE(f_base_score[meta_nps]),
 							"monitoria", AVERAGE(f_base_score[meta_monitoria]),
 							"produtividade", AVERAGE(f_base_score[meta_produtividade])
+						),
+					"@Limite",
+						IF(
+							_UsarLimiteEspecifico && CONTAINSROW(_IndicadoresEspecificos, d_cesta_indicadores_plataforma[indicador]),
+							_LimiteEspecifico,
+							_LimiteGeral
 						)
 				)
 			VAR _CestaAtingimento =
@@ -105,10 +117,13 @@ table d_medidas
 						IF(
 							ISBLANK([@Realizado]),
 							BLANK(),
-							IF(
-								d_cesta_indicadores_plataforma[direcao_meta] = "menor_melhor",
-								IF([@Realizado] = 0, 1, DIVIDE([@Meta], [@Realizado])),
-								DIVIDE([@Realizado], [@Meta])
+							MIN(
+								[@Limite],
+								IF(
+									d_cesta_indicadores_plataforma[direcao_meta] = "menor_melhor",
+									IF([@Realizado] = 0, 1, DIVIDE([@Meta], [@Realizado])),
+									DIVIDE([@Realizado], [@Meta])
+								)
 							)
 						)
 				)

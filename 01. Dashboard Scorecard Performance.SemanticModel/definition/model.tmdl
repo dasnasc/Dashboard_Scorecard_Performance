@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["f_base_score","d_calendario","d_cesta_indicadores_plataforma","d_medidas"]
+annotation PBI_QueryOrder = ["f_base_score","d_calendario","d_cesta_indicadores_plataforma","d_medidas","d_indicadores"]
 
 annotation PBI_ProTooling = ["DevMode","TMDLView_Desktop"]
 
@@ -17,6 +17,9 @@ ref table f_base_score
 ref table d_calendario
 ref table d_cesta_indicadores_plataforma
 ref table d_medidas
+ref table d_indicadores
+ref table p_limite_geral
+ref table p_limite_especifico
 
 ref cultureInfo pt-BR
 

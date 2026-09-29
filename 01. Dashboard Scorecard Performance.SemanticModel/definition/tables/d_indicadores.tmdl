@@ -1,0 +1,35 @@
+table d_indicadores
+	lineageTag: ee0ca467-8f0d-407a-8d70-0c926e52a081
+
+	column indicador
+		dataType: string
+		displayFolder: Parâmetros
+		lineageTag: 3a0cf2ce-4d26-4656-998b-5c157955a7c3
+		summarizeBy: none
+		sourceColumn: indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_indicador
+		dataType: string
+		displayFolder: Parâmetros
+		lineageTag: 46e6e755-1c81-4d11-b462-893f1df0ef3b
+		summarizeBy: none
+		sourceColumn: nome_indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_indicadores = m
+		mode: import
+		source =
+				let
+				  Origem = Csv.Document(File.Contents("C:\Users\Daniel\Documents\Daniel\Power BI\Base de Dados\01. Dashboard Score Performance\indicadores.csv"), [Delimiter = ";", Columns = 2, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Cabeçalhos promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars = true]),
+				  #"Tipo de coluna alterado" = Table.TransformColumnTypes(#"Cabeçalhos promovidos", {{"indicador", type text}, {"nome_indicador", type text}})
+				in
+				  #"Tipo de coluna alterado"
+
+		annotation PBI_NavigationStepName = Navegação
+
+		annotation PBI_ResultType = Table
+

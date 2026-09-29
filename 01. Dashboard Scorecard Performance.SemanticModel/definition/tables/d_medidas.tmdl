@@ -56,51 +56,7 @@ table d_medidas
 				IF(
 					NOT ISBLANK(_PlataformaAtual),
 					CALCULATE(
-						SUMX(
-							FILTER(
-								d_cesta_indicadores_plataforma,
-								d_cesta_indicadores_plataforma[plataforma] = _PlataformaAtual
-							),
-							VAR _Indicador = d_cesta_indicadores_plataforma[indicador]
-							VAR _Direcao = d_cesta_indicadores_plataforma[direcao_meta]
-							VAR _Peso = d_cesta_indicadores_plataforma[peso]
-							VAR _Realizado =
-								SWITCH(
-									_Indicador,
-									"tma", [TMA],
-									"transferencia", [Transferência],
-									"aderencia", [Aderência],
-									"abs", [ABS],
-									"csat", [CSAT],
-									"nps", [NPS],
-									"monitoria", [Monitoria],
-									"produtividade", [Produtividade]
-								)
-							VAR _Meta =
-								SWITCH(
-									_Indicador,
-									"tma", AVERAGE(f_base_score[meta_tma]),
-									"transferencia", AVERAGE(f_base_score[meta_transferencia_pesquisa]),
-									"aderencia", AVERAGE(f_base_score[meta_aderencia]),
-									"abs", AVERAGE(f_base_score[meta_abs]),
-									"csat", AVERAGE(f_base_score[meta_csat]),
-									"nps", AVERAGE(f_base_score[meta_nps]),
-									"monitoria", AVERAGE(f_base_score[meta_monitoria]),
-									"produtividade", AVERAGE(f_base_score[meta_produtividade])
-								)
-							VAR _Atingimento =
-								IF(
-									ISBLANK(_Realizado),
-									BLANK(),
-									IF(
-										_Direcao = "menor_melhor",
-										IF(_Realizado = 0, 1, DIVIDE(_Meta, _Realizado)),
-										DIVIDE(_Realizado, _Meta)
-									)
-								)
-							RETURN
-								_Peso * _Atingimento
-						),
+						[Score Ponderado (Plataforma)],
 						f_base_score[operacao_origem_historico] = _PlataformaAtual
 					)
 				)
@@ -111,53 +67,72 @@ table d_medidas
 	measure 'Score Ponderado (Plataforma)' =
 			
 			VAR _PlataformaHistorica = SELECTEDVALUE(f_base_score[operacao_origem_historico])
+			VAR _Cesta =
+				ADDCOLUMNS(
+					FILTER(
+						d_cesta_indicadores_plataforma,
+						d_cesta_indicadores_plataforma[plataforma] = _PlataformaHistorica
+					),
+					"@Realizado",
+						SWITCH(
+							d_cesta_indicadores_plataforma[indicador],
+							"tma", [TMA],
+							"transferencia", [Transferência],
+							"aderencia", [Aderência],
+							"abs", [ABS],
+							"csat", [CSAT],
+							"nps", [NPS],
+							"monitoria", [Monitoria],
+							"produtividade", [Produtividade]
+						),
+					"@Meta",
+						SWITCH(
+							d_cesta_indicadores_plataforma[indicador],
+							"tma", AVERAGE(f_base_score[meta_tma]),
+							"transferencia", AVERAGE(f_base_score[meta_transferencia_pesquisa]),
+							"aderencia", AVERAGE(f_base_score[meta_aderencia]),
+							"abs", AVERAGE(f_base_score[meta_abs]),
+							"csat", AVERAGE(f_base_score[meta_csat]),
+							"nps", AVERAGE(f_base_score[meta_nps]),
+							"monitoria", AVERAGE(f_base_score[meta_monitoria]),
+							"produtividade", AVERAGE(f_base_score[meta_produtividade])
+						)
+				)
+			VAR _CestaAtingimento =
+				ADDCOLUMNS(
+					_Cesta,
+					"@Atingimento",
+						IF(
+							ISBLANK([@Realizado]),
+							BLANK(),
+							IF(
+								d_cesta_indicadores_plataforma[direcao_meta] = "menor_melhor",
+								IF([@Realizado] = 0, 1, DIVIDE([@Meta], [@Realizado])),
+								DIVIDE([@Realizado], [@Meta])
+							)
+						)
+				)
+			VAR _Presentes =
+				FILTER(
+					_CestaAtingimento,
+					NOT ISBLANK([@Atingimento])
+				)
+			VAR _QtdPresentes = COUNTROWS(_Presentes)
+			VAR _PesoAusente =
+				SUMX(
+					FILTER(
+						_CestaAtingimento,
+						ISBLANK([@Atingimento])
+					),
+					d_cesta_indicadores_plataforma[peso]
+				)
+			VAR _PesoExtra = DIVIDE(_PesoAusente, _QtdPresentes)
 			RETURN
 				IF(
-					NOT ISBLANK(_PlataformaHistorica),
+					_QtdPresentes > 0,
 					SUMX(
-						FILTER(
-							d_cesta_indicadores_plataforma,
-							d_cesta_indicadores_plataforma[plataforma] = _PlataformaHistorica
-						),
-						VAR _Indicador = d_cesta_indicadores_plataforma[indicador]
-						VAR _Direcao = d_cesta_indicadores_plataforma[direcao_meta]
-						VAR _Peso = d_cesta_indicadores_plataforma[peso]
-						VAR _Realizado =
-							SWITCH(
-								_Indicador,
-								"tma", [TMA],
-								"transferencia", [Transferência],
-								"aderencia", [Aderência],
-								"abs", [ABS],
-								"csat", [CSAT],
-								"nps", [NPS],
-								"monitoria", [Monitoria],
-								"produtividade", [Produtividade]
-							)
-						VAR _Meta =
-							SWITCH(
-								_Indicador,
-								"tma", AVERAGE(f_base_score[meta_tma]),
-								"transferencia", AVERAGE(f_base_score[meta_transferencia_pesquisa]),
-								"aderencia", AVERAGE(f_base_score[meta_aderencia]),
-								"abs", AVERAGE(f_base_score[meta_abs]),
-								"csat", AVERAGE(f_base_score[meta_csat]),
-								"nps", AVERAGE(f_base_score[meta_nps]),
-								"monitoria", AVERAGE(f_base_score[meta_monitoria]),
-								"produtividade", AVERAGE(f_base_score[meta_produtividade])
-							)
-						VAR _Atingimento =
-							IF(
-								ISBLANK(_Realizado),
-								BLANK(),
-								IF(
-									_Direcao = "menor_melhor",
-									IF(_Realizado = 0, 1, DIVIDE(_Meta, _Realizado)),
-									DIVIDE(_Realizado, _Meta)
-								)
-							)
-						RETURN
-							_Peso * _Atingimento
+						_Presentes,
+						(d_cesta_indicadores_plataforma[peso] + _PesoExtra) * [@Atingimento]
 					)
 				)
 		formatString: 0%

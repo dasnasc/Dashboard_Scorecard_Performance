@@ -1,0 +1,207 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "72242b12171cd5a7e3ea",
+  "position": {
+    "x": 35.012468827930178,
+    "y": 389.17705735660849,
+    "z": 3,
+    "height": 655.81047381546136,
+    "width": 1850.2743142144639,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "id_do_funcionario"
+                }
+              },
+              "queryRef": "f_base_score.id_do_funcionario",
+              "nativeQueryRef": "id_do_funcionario",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "nome_do_funcionario"
+                }
+              },
+              "queryRef": "f_base_score.nome_do_funcionario",
+              "nativeQueryRef": "nome_do_funcionario",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "operacao_origem_atual"
+                }
+              },
+              "queryRef": "f_base_score.operacao_origem_atual",
+              "nativeQueryRef": "operacao_origem_atual",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "status_atual"
+                }
+              },
+              "queryRef": "f_base_score.status_atual",
+              "nativeQueryRef": "status_atual",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "f_base_score.id_do_funcionario"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "id_do_funcionario"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "f_base_score.nome_do_funcionario"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "nome_do_funcionario"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "f_base_score.operacao_origem_atual"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "operacao_origem_atual"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "f_base_score.status_atual"
+            ],
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_base_score"
+                    }
+                  },
+                  "Property": "status_atual"
+                }
+              }
+            ],
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "layout": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tabular'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "repeatRowHeaders": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoExpand": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

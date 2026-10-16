@@ -2,16 +2,15 @@
 
 Dashboard em Power BI que acompanha o desempenho de uma operação de atendimento (voz e digital) por meio de um **score ponderado por operador e por plataforma**, com ranking, quartis e perfil individual.
 
-**Dashboard online:** [abrir o dashboard](LINK_DO_DASHBOARD)
+**Dashboard online:** [abrir o dashboard](https://app.powerbi.com/view?r=eyJrIjoiOGIzOWYxYjgtMDEyMy00ZjJmLWJiNzgtOTVjNDEyNjJkNzFlIiwidCI6IjM0ZTM2ZjdlLWRkMmQtNDBkZi05ZjAzLWMwOWU5NDkwNGM1NiJ9&embedImagePlaceholder=true&pageName=efac05a3730987983d3c)
 
 > Os dados são **fictícios**: 160 operadores, 8 plataformas e 365 dias de 2025.
 
 ![Visão geral](img/01-visao-geral.png)
 
-<!-- Quando tiver os prints, descomente:
-![Ranking e quartis](img/02-ranking-e-quartis.png)
-![Perfil do operador](img/03-perfil-do-operador.png)
--->
+![Ranking e quartis](img/02-ranking_quartis.png)
+
+![Perfil do operador](img/03-perfil-operador.png)
 
 ## O que o dashboard mostra
 
